@@ -5,6 +5,7 @@ public class PlayerInput : MonoBehaviour
 {
     private PlayerControls _controls;
     public Vector2 MoveDirection { get; private set; }
+    public bool DashPressed { get; private set; }
 
     private void Awake()
     {
@@ -12,6 +13,8 @@ public class PlayerInput : MonoBehaviour
         
         _controls.Player.Move.performed += ctx => MoveDirection = ctx.ReadValue<Vector2>();
         _controls.Player.Move.canceled += ctx => MoveDirection = Vector2.zero;
+        
+        _controls.Player.Dash.performed += ctx => DashPressed = true;
     }
 
     private void OnEnable()
@@ -24,11 +27,8 @@ public class PlayerInput : MonoBehaviour
         _controls.Disable();
     }
 
-    // Update is called once per frame
-    // private void Update()
-    // {
-    //     var x = Input.GetAxisRaw("Horizontal");
-    //     var y = Input.GetAxisRaw("Vertical");
-    //     MoveDirection = new Vector2(x, y).normalized;
-    // }
+    private void LateUpdate()
+    {
+        DashPressed = false;
+    }
 }
