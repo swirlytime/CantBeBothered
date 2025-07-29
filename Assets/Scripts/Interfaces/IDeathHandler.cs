@@ -1,4 +1,7 @@
-﻿public interface IDeathHandler
+﻿namespace Interfaces
 {
-    void OnDeath();
+    public interface IDeathHandler
+    {
+        void OnDeath();
+    }
 }

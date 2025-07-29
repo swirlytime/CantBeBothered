@@ -18,7 +18,7 @@ public class DamageOnTouch : MonoBehaviour
     {
         if (!collider.CompareTag("Player")) return;
 
-        if (Time.time < lastDamageTime * damageCooldown)
+        if (Time.time < lastDamageTime + damageCooldown)
             return;
         
         var health = collider.GetComponent<Health>();

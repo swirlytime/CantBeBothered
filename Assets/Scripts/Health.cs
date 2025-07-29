@@ -1,3 +1,4 @@
+using Interfaces;
 using UnityEngine;
 
 public class Health : MonoBehaviour
@@ -10,6 +11,8 @@ public class Health : MonoBehaviour
     public void TakeDamage(float damage)
     {
         _currentHealth -= damage;
+        foreach (var receiver in GetComponents<IDamageReceived>())
+            receiver.OnDamageTaken();
 
         if (_currentHealth <= 0)
             OnDeath();

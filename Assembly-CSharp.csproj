@@ -49,7 +49,9 @@
     <Compile Include="Assets\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\PlayerInput.cs" />
     <Compile Include="Assets\Scripts\EnemyChaser.cs" />
+    <Compile Include="Assets\Scripts\PlayHurtAnimation.cs" />
     <Compile Include="Assets\Scripts\DamageOnTouch.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\IDamageReceived.cs" />
     <Compile Include="Assets\Scripts\Health.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IDeathHandler.cs" />
     <Compile Include="Assets\Scripts\EnemyDeathHandler.cs" />
