@@ -21,6 +21,8 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        if (_dash && _dash.IsDashing())
+            return;
         var moveVector = new Vector3(_input.MoveDirection.x, _input.MoveDirection.y, 0);
 		transform.position += moveSpeed * Time.deltaTime * moveVector;
     }

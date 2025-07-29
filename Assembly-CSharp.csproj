@@ -48,7 +48,13 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\PlayerInput.cs" />
+    <Compile Include="Assets\Scripts\EnemyChaser.cs" />
+    <Compile Include="Assets\Scripts\DamageOnTouch.cs" />
+    <Compile Include="Assets\Scripts\Health.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\IDeathHandler.cs" />
+    <Compile Include="Assets\Scripts\EnemyDeathHandler.cs" />
     <Compile Include="Assets\Scripts\LevelExit.cs" />
+    <Compile Include="Assets\Scripts\PlayerDeathHandler.cs" />
     <Compile Include="Assets\Scripts\DashCooldownUI.cs" />
     <Compile Include="Assets\Controls\PlayerControls.cs" />
     <Compile Include="Assets\Scripts\Movement.cs" />
