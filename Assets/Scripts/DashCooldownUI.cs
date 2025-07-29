@@ -3,12 +3,19 @@ using UnityEngine.UI;
 
 public class DashCooldownUI : MonoBehaviour
 {
-    public Dash playerDash;
+    private Dash _dashScript;
     public Image cooldownImage;
+
+    private void Start()
+    {
+        var player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+            _dashScript = player.GetComponent<Dash>();
+    }
     
     private void Update()
     {
-        if (playerDash is not null && cooldownImage is not null)
-            cooldownImage.fillAmount = playerDash.DashCooldownProgress;
+        if (_dashScript is not null && cooldownImage is not null)
+            cooldownImage.fillAmount = _dashScript.DashCooldownProgress;
     }
 }
