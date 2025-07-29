@@ -77,6 +77,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DashSpeed: 20
   DashDuration: 0.3
+  DashCooldown: 1
+  _dashAnimationName: Dash
 --- !u!50 &8834226370341418662
 Rigidbody2D:
   serializedVersion: 5

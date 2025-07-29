@@ -1,17 +1,28 @@
+using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerInput))]
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Animator))]
 public class Dash : MonoBehaviour
 {
     public float DashSpeed = 10f;
-    public float DashDuration = 0.3f;
+    public float DashDuration = 0.2f;
+    public float DashCooldown = 1f;
 
+    public float DashCooldownProgress => Mathf.Clamp01((Time.time - _lastDashTime) / DashCooldown);
+    
+    [SerializeField]
+    private string _dashAnimationName = "Dash";
+    
     private PlayerInput _input;
     private Vector2 _dashDirection;
     private Rigidbody2D _rb;
     private Animator _animator;
     private bool _isDashing;
+    private float _lastDashTime = -Mathf.Infinity;
     
     public bool IsDashing() => _isDashing;
     
@@ -24,7 +35,7 @@ public class Dash : MonoBehaviour
     
     private void Update()
     {
-        if (_input.DashPressed && !_isDashing && _input.MoveDirection != Vector2.zero)
+        if (_input.DashPressed && !_isDashing && _input.MoveDirection != Vector2.zero && Time.time >= _lastDashTime + DashCooldown)
             StartCoroutine(PerformDash(_input.MoveDirection));
     }
 
@@ -32,14 +43,23 @@ public class Dash : MonoBehaviour
     {
         _isDashing = true;
         _dashDirection = direction.normalized;
+        _lastDashTime = Time.time;
         //SetInvulnrable
 
         if (_animator)
         {
-            _animator.SetTrigger("Dash");
-            var state = _animator.GetCurrentAnimatorStateInfo(0);
-            var dashAnimLength = state.length;
-            _animator.speed = dashAnimLength > 0 ? dashAnimLength / DashDuration : 1f;
+            _animator.SetTrigger(_dashAnimationName);
+            var state = _animator.runtimeAnimatorController.animationClips.FirstOrDefault(clip => clip.name == _dashAnimationName);
+            if (state is not null)
+            {
+                var dashAnimLength = state.length;
+                _animator.speed = dashAnimLength > 0 ? dashAnimLength / DashDuration : 1f;
+            }
+            else
+            {
+                _animator.speed = 1f;
+            }
+
         }
 
         var elapsed = 0f;
