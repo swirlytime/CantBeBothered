@@ -14,6 +14,9 @@ public class Dash : MonoBehaviour
 
     public float DashCooldownProgress => Mathf.Clamp01((Time.time - _lastDashTime) / DashCooldown);
     
+    /// <summary>
+    /// 
+    /// </summary>
     [SerializeField]
     private string _dashAnimationName = "Dash";
     

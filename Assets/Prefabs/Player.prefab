@@ -217,6 +217,7 @@ GameObject:
   - component: {fileID: 3636088872964835986}
   - component: {fileID: 8437435798344031928}
   - component: {fileID: 1307723352464562770}
+  - component: {fileID: 1815504711490611630}
   m_Layer: 0
   m_Name: Sword
   m_TagString: Untagged
@@ -340,6 +341,28 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.13, y: 0.96}
   m_EdgeRadius: 0
+--- !u!114 &1815504711490611630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5531172015491816214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee24706e0385407887ff61beacfedef4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swingCooldown: 2
+  enemyDetectionRange: 2.5
+  coneAngle: 90
+  swingDistance: 1
+  minDamage: 1
+  maxDamage: 3
+  swingDuration: 0.3
+  idleOffset: {x: 0.7, y: -0.9}
+  idleRotation: 180
+  animator: {fileID: 7191897832940524661}
 --- !u!1 &7322153099093054024
 GameObject:
   m_ObjectHideFlags: 0
