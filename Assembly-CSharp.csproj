@@ -48,17 +48,20 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\SwordSwing.cs" />
     <Compile Include="Assets\Scripts\CameraFollow.cs" />
+    <Compile Include="Assets\Scripts\UI\XpBarUI.cs" />
     <Compile Include="Assets\Scripts\PlayerInput.cs" />
     <Compile Include="Assets\Scripts\EnemyChaser.cs" />
     <Compile Include="Assets\Scripts\PlayHurtAnimation.cs" />
     <Compile Include="Assets\Scripts\DamageOnTouch.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IDamageReceived.cs" />
     <Compile Include="Assets\Scripts\Health.cs" />
+    <Compile Include="Assets\Scripts\Constants\LevelUpTable.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IDeathHandler.cs" />
     <Compile Include="Assets\Scripts\UI\SwordSwingCooldownUI.cs" />
     <Compile Include="Assets\Scripts\EnemyDeathHandler.cs" />
     <Compile Include="Assets\Scripts\LevelExit.cs" />
     <Compile Include="Assets\Scripts\PlayerDeathHandler.cs" />
+    <Compile Include="Assets\Scripts\PlayerExperience.cs" />
     <Compile Include="Assets\Controls\PlayerControls.cs" />
     <Compile Include="Assets\Scripts\UI\HealthBarUI.cs" />
     <Compile Include="Assets\Scripts\Movement.cs" />

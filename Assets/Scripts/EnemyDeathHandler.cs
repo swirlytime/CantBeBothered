@@ -1,12 +1,12 @@
-﻿using System.Collections;
-using Interfaces;
+﻿using Interfaces;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class EnemyDeathHandler : MonoBehaviour, IDeathHandler
 { 
     public void OnDeath()
     {
+        var player = GameObject.FindWithTag("Player");
+        player.GetComponent<PlayerExperience>()?.AddXp(1); // should be in enemy character sheet of sorts
         Destroy(gameObject);
     }
 }
