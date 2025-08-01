@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
 
 namespace DefaultNamespace
@@ -14,15 +13,15 @@ namespace DefaultNamespace
         public float swingDistance = 1f;
         public float minDamage = 1f;
         public float maxDamage = 3f;
-        public float swingDuration = 0.3f;
-        public Vector2 idleOffset = new Vector2(0.7f, -0.9f);
+        public float swingDuration = 0.5f;
         public Animator animator;
-
-        private Transform _playerModel;
+        public Transform playerModel;
+        
         private Collider2D _swordCollider;
         private bool _isSwinging = false;
         private float _lastSwingTime = -Mathf.Infinity;
         private PlayerInput _playerInput;
+        private SpriteRenderer _swordSprite;
         
         private static readonly Vector2[] SwordOffsets =
         {
@@ -38,23 +37,24 @@ namespace DefaultNamespace
 
         public void Awake()
         {
-            _playerModel = transform.parent;
+            playerModel = transform.parent;
             _swordCollider = GetComponent<Collider2D>();
             _swordCollider.enabled = false;
-            _playerInput = _playerModel.GetComponent<PlayerInput>();
-            
+            _playerInput = playerModel.GetComponent<PlayerInput>();
+            _swordSprite = GetComponent<SpriteRenderer>();
         }
         
         private void Update()
         {
             if (!_isSwinging)
             {
-                var target = FindEnemyInCone();
+                var moveDir = _playerInput.MoveDirection;
+                
+                var target = FindEnemyInCone(moveDir);
                 if (target is not null && Time.time >= _lastSwingTime + swingCooldown)
                     StartCoroutine(SwingRoutine(target.position));
                 else
                 {
-                    var moveDir = _playerInput.MoveDirection;
                     if (moveDir.sqrMagnitude < 0.01f) return;
                     
                     moveDir.Normalize();
@@ -65,20 +65,17 @@ namespace DefaultNamespace
                     var sector = Mathf.RoundToInt(angle / 45f) % 8;
                     var offset = SwordOffsets[sector];
 
-                    transform.position = _playerModel.position + (Vector3)(offset * 0.8f);//not sure about this float
+                    transform.position = playerModel.position + (Vector3)(offset * 0.8f);//not sure about this float
                     var rotAngle = Mathf.Atan2(-moveDir.y, -moveDir.x) * Mathf.Rad2Deg;
                     transform.rotation = Quaternion.Euler(0, 0, rotAngle - 90f);
-                    
-                    // transform.position = _playerModel.position + (Vector3)idleOffset;
-                    // transform.rotation = Quaternion.Euler(0f, 0f, idleRotation);
                 }
             }
         }
 
         [CanBeNull]
-        private Transform FindEnemyInCone()
+        private Transform FindEnemyInCone(Vector2 moveDir)
         {
-            var hits = Physics2D.OverlapCircleAll(transform.position, enemyDetectionRange);
+            var hits = Physics2D.OverlapCircleAll(playerModel.position, enemyDetectionRange);
             Transform closest = null;
             var closestDist = Mathf.Infinity;
 
@@ -86,8 +83,8 @@ namespace DefaultNamespace
             {
                 if (!hit.CompareTag("Enemy")) continue;
 
-                var toTarget = hit.transform.position - _playerModel.position;
-                var angle = Vector2.Angle(_playerModel.right, toTarget.normalized);
+                var toTarget = hit.transform.position - playerModel.position;
+                var angle = Vector2.Angle(moveDir, toTarget.normalized);
 
                 if (angle <= coneAngle / 2f)
                 {
@@ -107,21 +104,22 @@ namespace DefaultNamespace
         {
             _isSwinging = true;
             _lastSwingTime = Time.time;
-
-            
-            var direction = (targetPosition - (Vector2)_playerModel.position).normalized;
-            var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-            transform.position = _playerModel.position + (Vector3)(direction * swingDistance);
-            transform.rotation = Quaternion.Euler(0, 0, angle);
-            
             _swordCollider.enabled = true;
             
-            if (animator is not null)
-                animator.SetTrigger("Swing");
-            
-            yield return new WaitForSeconds(swingDuration);
+            var direction = (targetPosition - (Vector2)playerModel.position).normalized;
+            var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
+            transform.position = playerModel.position + (Vector3)(direction * swingDistance);
+            transform.rotation = Quaternion.Euler(0, 0, angle-90);
+            
+            animator.enabled = true;
+            animator?.SetTrigger("Swing");
+
+            yield return new WaitForSeconds(swingDuration);
+                
+            if (animator is not null)    
+                animator.enabled = false;
+            // _swordSprite.enabled = true;
             _swordCollider.enabled = false;
             _isSwinging = false;
         }
@@ -140,10 +138,10 @@ namespace DefaultNamespace
 
         private void OnDrawGizmosSelected()
         {
-            if (_playerModel is null) return;
+            if (playerModel is null) return;
             
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(_playerModel.position, enemyDetectionRange);
+            Gizmos.DrawWireSphere(playerModel.position, enemyDetectionRange);
         }
     }
 }
