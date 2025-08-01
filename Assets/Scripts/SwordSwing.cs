@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
 
 namespace DefaultNamespace
@@ -15,19 +16,33 @@ namespace DefaultNamespace
         public float maxDamage = 3f;
         public float swingDuration = 0.3f;
         public Vector2 idleOffset = new Vector2(0.7f, -0.9f);
-        public float idleRotation = 180f;
         public Animator animator;
 
         private Transform _playerModel;
         private Collider2D _swordCollider;
         private bool _isSwinging = false;
         private float _lastSwingTime = -Mathf.Infinity;
+        private PlayerInput _playerInput;
+        
+        private static readonly Vector2[] SwordOffsets =
+        {
+            new Vector2(0, -1),     // Right → Bottom
+            new Vector2(0.7f, -0.7f), // UpRight → Bottom Left
+            new Vector2(1, 0),     // Up → Left
+            new Vector2(0.7f, 0.7f),  // UpLeft → Top Left
+            new Vector2(0, 1),      // Left → Top
+            new Vector2(-0.7f, 0.7f),  // DownLeft → Top Right
+            new Vector2(-1, 0),      // Down → Right
+            new Vector2(-0.7f, -0.7f), // DownRight → Bottom Right
+        };
 
         public void Awake()
         {
             _playerModel = transform.parent;
             _swordCollider = GetComponent<Collider2D>();
             _swordCollider.enabled = false;
+            _playerInput = _playerModel.GetComponent<PlayerInput>();
+            
         }
         
         private void Update()
@@ -39,10 +54,24 @@ namespace DefaultNamespace
                     StartCoroutine(SwingRoutine(target.position));
                 else
                 {
-                    transform.position = _playerModel.position + (Vector3)idleOffset;
-                    transform.rotation = Quaternion.Euler(0f, 0f, idleRotation);
-                }
+                    var moveDir = _playerInput.MoveDirection;
+                    if (moveDir.sqrMagnitude < 0.01f) return;
+                    
+                    moveDir.Normalize();
+                    var angle = Mathf.Atan2(moveDir.y, moveDir.x) * Mathf.Rad2Deg;
+                    if (angle < 0)
+                        angle += 360;
 
+                    var sector = Mathf.RoundToInt(angle / 45f) % 8;
+                    var offset = SwordOffsets[sector];
+
+                    transform.position = _playerModel.position + (Vector3)(offset * 0.8f);//not sure about this float
+                    var rotAngle = Mathf.Atan2(-moveDir.y, -moveDir.x) * Mathf.Rad2Deg;
+                    transform.rotation = Quaternion.Euler(0, 0, rotAngle - 90f);
+                    
+                    // transform.position = _playerModel.position + (Vector3)idleOffset;
+                    // transform.rotation = Quaternion.Euler(0f, 0f, idleRotation);
+                }
             }
         }
 
@@ -79,6 +108,7 @@ namespace DefaultNamespace
             _isSwinging = true;
             _lastSwingTime = Time.time;
 
+            
             var direction = (targetPosition - (Vector2)_playerModel.position).normalized;
             var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
