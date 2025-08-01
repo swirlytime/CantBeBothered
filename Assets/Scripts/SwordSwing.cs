@@ -35,6 +35,8 @@ namespace DefaultNamespace
             new Vector2(-0.7f, -0.7f), // DownRight → Bottom Right
         };
 
+        public float CooldownProgress => Mathf.Clamp01((Time.time - _lastSwingTime) / swingCooldown);
+        
         public void Awake()
         {
             playerModel = transform.parent;
