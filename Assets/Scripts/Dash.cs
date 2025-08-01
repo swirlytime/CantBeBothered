@@ -7,7 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Dash : MonoBehaviour
 {
-    public float DashSpeed = 10f;
+    public float DashSpeed = 20f;
     public float DashDuration = 0.2f;
     public float DashCooldown = 1f;
     public Animator animator;
