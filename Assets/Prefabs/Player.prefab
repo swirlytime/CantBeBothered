@@ -311,7 +311,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentLevel: 0
   currentXp: 0
-  xpToNextLevel: 0
+  xpToNextLevel: 1
 --- !u!1 &5531172015491816214
 GameObject:
   m_ObjectHideFlags: 0
