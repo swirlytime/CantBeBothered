@@ -3107,6 +3107,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2833079593582875783, guid: f61a240e06b281240b4521a47c2e11c3, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 2028838733}
     - target: {fileID: 5031913367397523885, guid: f61a240e06b281240b4521a47c2e11c3, type: 3}
       propertyPath: m_Name
       value: Player
@@ -5710,6 +5714,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 679d6ccc827655b45bdb19ee390625fb, type: 3}
+--- !u!95 &2028838733 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7756535776306888360, guid: f61a240e06b281240b4521a47c2e11c3, type: 3}
+  m_PrefabInstance: {fileID: 801482781}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2058380032
 GameObject:
   m_ObjectHideFlags: 0
