@@ -5,12 +5,12 @@ using UnityEngine;
 
 [RequireComponent(typeof(PlayerInput))]
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(Animator))]
 public class Dash : MonoBehaviour
 {
     public float DashSpeed = 10f;
     public float DashDuration = 0.2f;
     public float DashCooldown = 1f;
+    public Animator animator;
 
     public float DashCooldownProgress => Mathf.Clamp01((Time.time - _lastDashTime) / DashCooldown);
     
@@ -23,7 +23,6 @@ public class Dash : MonoBehaviour
     private PlayerInput _input;
     private Vector2 _dashDirection;
     private Rigidbody2D _rb;
-    private Animator _animator;
     private bool _isDashing;
     private float _lastDashTime = -Mathf.Infinity;
     
@@ -33,7 +32,6 @@ public class Dash : MonoBehaviour
     {
         _input = GetComponent<PlayerInput>();
         _rb = GetComponent<Rigidbody2D>();
-        _animator = GetComponent<Animator>();
     }
     
     private void Update()
@@ -49,18 +47,18 @@ public class Dash : MonoBehaviour
         _lastDashTime = Time.time;
         //SetInvulnrable
 
-        if (_animator)
+        if (animator)
         {
-            _animator.SetTrigger(_dashAnimationName);
-            var state = _animator.runtimeAnimatorController.animationClips.FirstOrDefault(clip => clip.name == _dashAnimationName);
+            animator.SetTrigger(_dashAnimationName);
+            var state = animator.runtimeAnimatorController.animationClips.FirstOrDefault(clip => clip.name == _dashAnimationName);
             if (state is not null)
             {
                 var dashAnimLength = state.length;
-                _animator.speed = dashAnimLength > 0 ? dashAnimLength / DashDuration : 1f;
+                animator.speed = dashAnimLength > 0 ? dashAnimLength / DashDuration : 1f;
             }
             else
             {
-                _animator.speed = 1f;
+                animator.speed = 1f;
             }
 
         }
@@ -75,7 +73,7 @@ public class Dash : MonoBehaviour
 
         _rb.linearVelocity = Vector2.zero;
         _isDashing = false;
-        _animator.speed = 1f;
+        animator.speed = 1f;
         //RemoveInvlunrable
     }
 }
