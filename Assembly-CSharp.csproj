@@ -64,9 +64,11 @@
     <Compile Include="Assets\Scripts\PlayerExperience.cs" />
     <Compile Include="Assets\Controls\PlayerControls.cs" />
     <Compile Include="Assets\Scripts\UI\HealthBarUI.cs" />
+    <Compile Include="Assets\Scripts\EnemyDashTrigger.cs" />
     <Compile Include="Assets\Scripts\Movement.cs" />
     <Compile Include="Assets\Scripts\UI\DashCooldownUI.cs" />
     <Compile Include="Assets\Scripts\Dash.cs" />
+    <Compile Include="Assets\Scripts\EnemyDash.cs" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.1.13f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

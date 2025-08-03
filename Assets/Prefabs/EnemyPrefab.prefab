@@ -104,10 +104,7 @@ GameObject:
   - component: {fileID: 595234126421706755}
   - component: {fileID: 8981827054062561707}
   - component: {fileID: 4465762053530107587}
-<<<<<<< HEAD
-=======
   - component: {fileID: 709398403935000475}
->>>>>>> dasd
   m_Layer: 0
   m_Name: EnemyPrefab
   m_TagString: Enemy
@@ -129,10 +126,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1884046546884818765}
-<<<<<<< HEAD
-=======
   - {fileID: 5593080204427292791}
->>>>>>> dasd
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &934187467778758089
@@ -287,8 +281,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
-<<<<<<< HEAD
-=======
 --- !u!114 &709398403935000475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,4 +379,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fbdd6e1a4314804ba639c56222cb708, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
->>>>>>> dasd
