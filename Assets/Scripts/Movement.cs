@@ -3,6 +3,9 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerInput))]
 public class Movement : MonoBehaviour
 {
+    private static readonly int MoveXAnim = Animator.StringToHash("MoveX");
+    private static readonly int MoveYAnim = Animator.StringToHash("MoveY");
+    private static readonly int SpeedAnim = Animator.StringToHash("Speed");
     public float moveSpeed = 2f;
     
     private PlayerInput _input;
@@ -15,7 +18,7 @@ public class Movement : MonoBehaviour
         _input = GetComponent<PlayerInput>();
         _rb = GetComponent<Rigidbody2D>();
         _dash = GetComponent<Dash>();
-        _animator = GetComponent<Animator>();
+        _animator = GetComponentInChildren<Animator>();
     }
     
     // Update is called once per frame
@@ -25,6 +28,9 @@ public class Movement : MonoBehaviour
             return;
         var moveVector = new Vector3(_input.MoveDirection.x, _input.MoveDirection.y, 0);
 		transform.position += moveSpeed * Time.deltaTime * moveVector;
+
+        _animator.SetFloat(MoveXAnim, _input.MoveDirection.x);
+        _animator.SetFloat(MoveYAnim, _input.MoveDirection.y);
     }
 
     private void FixedUpdate()
@@ -36,6 +42,6 @@ public class Movement : MonoBehaviour
         _rb.linearVelocity = velocity;
         
         if (_animator)
-            _animator.SetFloat("Speed", velocity.magnitude);
+            _animator.SetFloat(SpeedAnim, velocity.magnitude);
     }
 }
