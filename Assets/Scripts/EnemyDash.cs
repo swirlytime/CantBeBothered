@@ -5,11 +5,13 @@ using UnityEngine;
 public class EnemyDash : MonoBehaviour
 {
     public float dashCooldown = 2f;
+    public float preDashDelay = 0.5f;
     public float stopBeforeDistance = 2f;
     public float dashDuration = 0.5f;
     public float damageRadius = 0.5f;
     public float damageAmount = 1f;
     public LayerMask playerLayer;
+    public LayerMask obstacleLayer;      // Walls layer
 
     public Transform target;
     [SerializeField] private CircleCollider2D dashTrigger;
@@ -19,8 +21,14 @@ public class EnemyDash : MonoBehaviour
     private bool canDash = true;
     private bool hasDealtDamage = false;
 
+    private Rigidbody2D _rb;
+    private EnemyChaser _chaser;
+
     private void Awake()
     {
+        _rb = GetComponent<Rigidbody2D>();
+        _chaser = GetComponent<EnemyChaser>();
+
         if (target == null)
         {
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
@@ -59,6 +67,13 @@ public class EnemyDash : MonoBehaviour
         float dashDistance = Mathf.Max((distanceToTarget * 2f) - stopBeforeDistance, 0.1f);
         Vector3 dashEndPos = currentPos + direction * dashDistance;
 
+        // Raycast to stop at walls
+        RaycastHit2D hit = Physics2D.Raycast(currentPos, direction, dashDistance, obstacleLayer);
+        if (hit.collider != null)
+        {
+            dashEndPos = (Vector3)hit.point - (Vector3)direction * 0.1f;
+        }
+
         Debug.DrawLine(currentPos, dashEndPos, Color.red, 1f);
 
         StartCoroutine(PerformDash(currentPos, dashEndPos));
@@ -69,6 +84,15 @@ public class EnemyDash : MonoBehaviour
         _isDashing = true;
         canDash = false;
         hasDealtDamage = false;
+
+        // Stop Chaser movement during pre-dash windup
+        if (_chaser != null) _chaser.canMove = false;
+
+        // Pre-dash windup
+        yield return new WaitForSeconds(preDashDelay);
+
+        // Resume Chaser movement during dash
+        if (_chaser != null) _chaser.canMove = true;
 
         float elapsed = 0f;
 
@@ -113,5 +137,6 @@ public class EnemyDash : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, damageRadius);
+        Gizmos.DrawWireSphere(transform.position, 0.5f); // Optional: keep for debug
     }
 }
