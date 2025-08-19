@@ -8,9 +8,6 @@ public class EnemyDash : MonoBehaviour
     public float preDashDelay = 0.5f;
     public float stopBeforeDistance = 2f;
     public float dashDuration = 0.5f;
-    public float damageRadius = 0.5f;
-    public float damageAmount = 1f;
-    public LayerMask playerLayer;
     public LayerMask obstacleLayer;      // Walls layer
 
     public Transform target;
@@ -19,7 +16,6 @@ public class EnemyDash : MonoBehaviour
     private bool _isDashing = false;
     private bool playerInRange = false;
     private bool canDash = true;
-    private bool hasDealtDamage = false;
 
     private Rigidbody2D _rb;
     private EnemyChaser _chaser;
@@ -83,7 +79,6 @@ public class EnemyDash : MonoBehaviour
     {
         _isDashing = true;
         canDash = false;
-        hasDealtDamage = false;
 
         // Stop Chaser movement during pre-dash windup
         if (_chaser != null) _chaser.canMove = false;
@@ -104,21 +99,6 @@ public class EnemyDash : MonoBehaviour
             Vector3 newPos = Vector3.Lerp(dashStartPos, dashEndPos, t);
             transform.position = newPos;
 
-            if (!hasDealtDamage)
-            {
-                Collider2D hit = Physics2D.OverlapCircle(transform.position, damageRadius, playerLayer);
-                if (hit != null && hit.CompareTag("Player"))
-                {
-                    var health = hit.GetComponent<Health>();
-                    if (health != null)
-                    {
-                        health.TakeDamage(damageAmount);
-                        Debug.Log($"{name} damaged player during dash!");
-                        hasDealtDamage = true;
-                    }
-                }
-            }
-
             elapsed += Time.deltaTime;
             yield return null;
         }
@@ -136,7 +116,6 @@ public class EnemyDash : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, damageRadius);
         Gizmos.DrawWireSphere(transform.position, 0.5f); // Optional: keep for debug
     }
 }
