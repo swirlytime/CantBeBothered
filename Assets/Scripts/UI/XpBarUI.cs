@@ -25,7 +25,6 @@ namespace UI
         {
             var ratio = currentXp / xpToNextLevel;
             xpSlider.value = ratio;
-            Debug.Log(ratio);
         
             xpText.text = $"{Mathf.CeilToInt(currentXp)} / {Mathf.CeilToInt(xpToNextLevel)}";
         }

@@ -62,6 +62,7 @@
     <Compile Include="Assets\Scripts\LevelExit.cs" />
     <Compile Include="Assets\Scripts\PlayerDeathHandler.cs" />
     <Compile Include="Assets\Scripts\PlayerExperience.cs" />
+    <Compile Include="Assets\Scripts\EnemyDeathAnimationEvent.cs" />
     <Compile Include="Assets\Controls\PlayerControls.cs" />
     <Compile Include="Assets\Scripts\UI\HealthBarUI.cs" />
     <Compile Include="Assets\Scripts\EnemyDashTrigger.cs" />

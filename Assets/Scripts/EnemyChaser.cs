@@ -3,12 +3,16 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class EnemyChaser : MonoBehaviour
 {
+    private static readonly int MoveXAnim = Animator.StringToHash("MoveX");
+    private static readonly int SpeedAnim = Animator.StringToHash("Speed");
     public float attackRange = 0.5f;
     public float detectionRange = 15f;         // How far the enemy can detect the player
     public float surroundStartRange = 8f;      // Start surrounding from this distance
     public float surroundRadius = 2.5f;        // Circle around the player
     public float moveSpeed = 3f;
+    public Animator animator;
 
+    
     private Rigidbody2D _rb;
     private Transform _player;
     private float _surroundAngleOffset;
@@ -26,29 +30,31 @@ public class EnemyChaser : MonoBehaviour
     private void FixedUpdate()
     {
         if (_player is null) return;
-        
+
         var distance = Vector2.Distance(transform.position, _player.position);
-
-        if (distance <= detectionRange)
-            _isFollowing = true;
-
-        if (!_isFollowing)
-            return;
         
-        Vector2 targetPos;
+        if (_isFollowing)
+        {
+            Vector2 targetPos;
 
-        if (distance > surroundStartRange)
-            targetPos = _player.position;
-        else
-            targetPos = GetSurroundPoint();
+            if (distance > surroundStartRange)
+                targetPos = _player.position;
+            else
+                targetPos = GetSurroundPoint();
 
-        var toTarget = targetPos - (Vector2)(transform.position);
+            var toTarget = targetPos - (Vector2)(transform.position);
 
-        if (toTarget.magnitude >= attackRange)
-            _rb.linearVelocity = toTarget.normalized * moveSpeed;
-        else
-            _rb.linearVelocity = Vector2.zero;
-
+            if (toTarget.magnitude >= attackRange)
+                _rb.linearVelocity = toTarget.normalized * moveSpeed;
+            else
+                _rb.linearVelocity = Vector2.zero;  
+            
+            animator.SetFloat(SpeedAnim, _rb.linearVelocity.magnitude);
+            animator.SetFloat(MoveXAnim, _rb.linearVelocity.x);
+            animator.SetFloat(MoveXAnim, _rb.linearVelocity.x);
+        }
+        else if (distance <= detectionRange)
+            _isFollowing = true;
     }
 
     private Vector2 GetSurroundPoint()
