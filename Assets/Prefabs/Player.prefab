@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9221053227483409785}
-  - component: {fileID: 8450650562316568058}
   - component: {fileID: 5513512642849915815}
   m_Layer: 0
   m_Name: SwordSwing
@@ -33,28 +32,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3636088872964835986}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &8450650562316568058
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2659371432417411712}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 28d4786ab96f70b45bb5c73a05d868a9, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!212 &5513512642849915815
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -189,8 +166,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6f7d5bb7b30480580cd1d9087b39a8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DashSpeed: 20
-  DashDuration: 0.3
+  DashSpeed: 30
+  DashDuration: 0.2
   DashCooldown: 1
   animator: {fileID: 7756535776306888360}
   _dashAnimationName: Dash
@@ -323,6 +300,7 @@ GameObject:
   - component: {fileID: 3636088872964835986}
   - component: {fileID: 1307723352464562770}
   - component: {fileID: 1815504711490611630}
+  - component: {fileID: 192101754480288434}
   m_Layer: 0
   m_Name: Sword
   m_TagString: Untagged
@@ -338,14 +316,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5531172015491816214}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
+  m_LocalRotation: {x: 0, y: -0, z: 0.3826836, w: -0.92387944}
   m_LocalPosition: {x: 0.70013, y: 0.10302, z: 0}
   m_LocalScale: {x: 1.1833, y: 2.2751524, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9221053227483409785}
   m_Father: {fileID: 8728826348960076316}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 315}
 --- !u!61 &1307723352464562770
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -380,7 +358,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.35056576}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.4889286, y: 0.14242722}
@@ -390,7 +368,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.13, y: 0.96}
+  m_Size: {x: 0.13, y: 0.98096424}
   m_EdgeRadius: 0
 --- !u!114 &1815504711490611630
 MonoBehaviour:
@@ -411,8 +389,30 @@ MonoBehaviour:
   minDamage: 1
   maxDamage: 3
   swingDuration: 0.3
-  animator: {fileID: 8450650562316568058}
+  animator: {fileID: 192101754480288434}
   playerModel: {fileID: 8728826348960076316}
+--- !u!95 &192101754480288434
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5531172015491816214}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 28d4786ab96f70b45bb5c73a05d868a9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7322153099093054024
 GameObject:
   m_ObjectHideFlags: 0
