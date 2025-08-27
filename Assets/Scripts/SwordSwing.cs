@@ -106,7 +106,7 @@ namespace DefaultNamespace
             _swordCollider.enabled = true;
             
             var direction = (targetPosition - (Vector2)playerModel.position).normalized;
-            transform.position = (Vector2)playerModel.position + direction * swingDistance;
+            // transform.position = (Vector2)playerModel.position + direction * swingDistance;
             
             var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
             
@@ -120,6 +120,11 @@ namespace DefaultNamespace
                 var t = elapsed / swingDuration;
                 
                 var currentAngle = Mathf.Lerp(startAngle, endAngle, t);
+                var offset = new Vector2(
+                    Mathf.Cos((currentAngle+90f) * Mathf.Deg2Rad),
+                    Mathf.Sin((currentAngle+90f) * Mathf.Deg2Rad)) * swingDistance;
+                
+                transform.position = (Vector2)playerModel.position + offset;
                 transform.rotation = Quaternion.Euler(0, 0, currentAngle);
 
                 yield return null;
