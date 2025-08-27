@@ -54,7 +54,7 @@ namespace DefaultNamespace
             var moveDir = _playerInput.MoveDirection;
                 
             if (Time.time >= _lastSwingTime + swingCooldown && TryFindClosestEnemy(out var target))
-                StartCoroutine(SwingRoutine(target.position));
+                StartCoroutine(SwingRoutine(target.position, 90)); //get from player upgrades/level thing.
             else
             {
                 if (moveDir.sqrMagnitude < 0.01f) return;
@@ -92,31 +92,39 @@ namespace DefaultNamespace
                 if (closestDist <= toTarget)
                     continue;
                 
-                Debug.Log("Found enemy");
                 closestDist = toTarget;
                 closest = hit.transform;
             }
 
-            return closest != null;
+            return closest is not null;
         }
 
-        private IEnumerator SwingRoutine(Vector2 targetPosition)
+        private IEnumerator SwingRoutine(Vector2 targetPosition, float swingAngle)
         {
             _isSwinging = true;
             _lastSwingTime = Time.time;
             _swordCollider.enabled = true;
             
             var direction = (targetPosition - (Vector2)playerModel.position).normalized;
-            var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-            transform.position = playerModel.position + (Vector3)(direction * swingDistance);
-            transform.rotation = Quaternion.Euler(0, 0, angle-90);
+            transform.position = (Vector2)playerModel.position + direction * swingDistance;
             
-            animator.enabled = true;
-            animator?.SetTrigger("Swing");
+            var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
+            
+            var startAngle = angle - (swingAngle / 2f);
+            var endAngle = angle + (swingAngle / 2f);
 
-            yield return new WaitForSeconds(swingDuration);
+            var elapsed = 0f;
+            while (elapsed < swingDuration)
+            {
+                elapsed += Time.deltaTime;
+                var t = elapsed / swingDuration;
                 
+                var currentAngle = Mathf.Lerp(startAngle, endAngle, t);
+                transform.rotation = Quaternion.Euler(0, 0, currentAngle);
+
+                yield return null;
+            }
+            
             if (animator is not null)    
                 animator.enabled = false;
             // _swordSprite.enabled = true;
@@ -139,6 +147,25 @@ namespace DefaultNamespace
         private void OnDrawGizmosSelected()
         {
             if (playerModel is null) return;
+
+            if (_isSwinging)
+            {
+                var angle = 90f; //Get from player level thing
+                var halfFOV = angle / 2f;
+                var rayRange = 5f;
+
+                var coneDirection = 180f;
+                
+                var upRayRotation = Quaternion.AngleAxis(-halfFOV + coneDirection, Vector3.forward);
+                var downRayRotation = Quaternion.AngleAxis(halfFOV + coneDirection, Vector3.forward);
+
+                var upRayDirection = upRayRotation * transform.right * rayRange;
+                var downRayDirection = downRayRotation * transform.right * rayRange;
+
+                Gizmos.DrawRay(transform.position, upRayDirection);
+                Gizmos.DrawRay(transform.position, downRayDirection);
+                Gizmos.DrawLine(transform.position + downRayDirection, transform.position + upRayDirection);
+            }
             
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(playerModel.position, enemyDetectionRange);
