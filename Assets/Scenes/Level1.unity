@@ -440,12 +440,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 122892456}
     m_Modifications:
     - target: {fileID: 709398403935000475, guid: be3596e0491fb6045aa278debb02cc04, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 709398403935000475, guid: be3596e0491fb6045aa278debb02cc04, type: 3}
       propertyPath: dashCooldown
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1777811309883996603, guid: be3596e0491fb6045aa278debb02cc04, type: 3}
       propertyPath: m_Name
-      value: Wolf (3)
+      value: DummyTarget
       objectReference: {fileID: 0}
     - target: {fileID: 2859303741212607774, guid: be3596e0491fb6045aa278debb02cc04, type: 3}
       propertyPath: MaxHealth
