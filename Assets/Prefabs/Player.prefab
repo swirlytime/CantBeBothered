@@ -190,9 +190,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DashSpeed: 20
-  DashDuration: 0.3
+  DashDuration: 0.2
   DashCooldown: 1
-  animator: {fileID: 7756535776306888360}
+  animator: {fileID: 0}
   _dashAnimationName: Dash
 --- !u!50 &8834226370341418662
 Rigidbody2D:
@@ -283,7 +283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4071fad90bfc46188e1a97dedee5c805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startSceneName: MainLobby
+  startSceneName: 
 --- !u!114 &2833079593582875783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -410,9 +410,9 @@ MonoBehaviour:
   swingDistance: 1
   minDamage: 1
   maxDamage: 3
-  swingDuration: 0.3
-  animator: {fileID: 8450650562316568058}
-  playerModel: {fileID: 8728826348960076316}
+  swingDuration: 0.5
+  animator: {fileID: 0}
+  playerModel: {fileID: 0}
 --- !u!1 &7322153099093054024
 GameObject:
   m_ObjectHideFlags: 0
