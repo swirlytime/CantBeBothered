@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Models;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class EnemyChaser : MonoBehaviour
@@ -12,14 +13,14 @@ public class EnemyChaser : MonoBehaviour
     public float repathRate = 0.5f;            // How often to recalc path (seconds)
 
     [Header("References")]
-    public Pathfinding pathfinder;             // Assign in Inspector
+    public PathFinding pathfinder;             // Assign in Inspector
     public Transform target;                   // Assign Player in Inspector
 
     [HideInInspector] public bool canMove = true; // NEW: Dash can temporarily stop movement
 
     private Rigidbody2D _rb;
     private float _surroundAngleOffset;
-    private bool _isFollowing = false;
+    private bool _isFollowing;
 
     private List<Node> _currentPath;
     private int _pathIndex;
@@ -29,10 +30,10 @@ public class EnemyChaser : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
 
-        if (target == null)
+        if (target is null)
             Debug.LogWarning("EnemyChaser: No target assigned in Inspector!");
 
-        if (pathfinder == null)
+        if (pathfinder is null)
             Debug.LogWarning("EnemyChaser: No Pathfinding assigned in Inspector!");
 
         _surroundAngleOffset = Random.Range(0f, 360f);
@@ -46,7 +47,7 @@ public class EnemyChaser : MonoBehaviour
             return;
         }
 
-        if (target == null || pathfinder == null) return;
+        if (target is null || pathfinder is null) return;
 
         var distance = Vector2.Distance(transform.position, target.position);
 
@@ -56,7 +57,7 @@ public class EnemyChaser : MonoBehaviour
         if (!_isFollowing)
             return;
 
-        Vector2 targetPos = (distance > surroundStartRange) ? target.position : GetSurroundPoint();
+        var targetPos = (distance > surroundStartRange) ? (Vector2)target.position : GetSurroundPoint();
 
         if (Time.time - _lastRepathTime > repathRate)
         {
@@ -78,7 +79,7 @@ public class EnemyChaser : MonoBehaviour
             return;
         }
 
-        Vector3 targetPos = _currentPath[_pathIndex].worldPosition;
+        var targetPos = _currentPath[_pathIndex].WorldPosition;
         Vector2 toTarget = targetPos - transform.position;
 
         if (toTarget.magnitude < 0.5f)
@@ -97,27 +98,28 @@ public class EnemyChaser : MonoBehaviour
     {
         var angleRad = _surroundAngleOffset * Mathf.Deg2Rad;
         var offset = new Vector2(Mathf.Cos(angleRad), Mathf.Sin(angleRad)) * surroundRadius;
+        
         return (Vector2)target.position + offset;
     }
 
     private void OnDrawGizmosSelected()
     {
-        if (target == null) return;
+        if (target is null) return;
 
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(target.position, surroundRadius);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(target.position, surroundStartRange);
 
-        if (_currentPath != null)
+        if (_currentPath == null)
+            return;
+        
+        Gizmos.color = Color.green;
+        for (var i = 0; i < _currentPath.Count; i++)
         {
-            Gizmos.color = Color.green;
-            for (int i = 0; i < _currentPath.Count; i++)
-            {
-                Gizmos.DrawSphere(_currentPath[i].worldPosition, 0.1f);
-                if (i < _currentPath.Count - 1)
-                    Gizmos.DrawLine(_currentPath[i].worldPosition, _currentPath[i + 1].worldPosition);
-            }
+            Gizmos.DrawSphere(_currentPath[i].WorldPosition, 0.1f);
+            if (i < _currentPath.Count - 1)
+                Gizmos.DrawLine(_currentPath[i].WorldPosition, _currentPath[i + 1].WorldPosition);
         }
     }
 }
