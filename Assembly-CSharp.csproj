@@ -46,6 +46,7 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.1.13f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\PathFinding\DefaultGrids.cs" />
     <Compile Include="Assets\Scripts\SwordSwing.cs" />
     <Compile Include="Assets\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\UI\XpBarUI.cs" />
@@ -53,10 +54,10 @@
     <Compile Include="Assets\Scripts\EnemyChaser.cs" />
     <Compile Include="Assets\Scripts\PlayHurtAnimation.cs" />
     <Compile Include="Assets\Scripts\DamageOnTouch.cs" />
+    <Compile Include="Assets\Scripts\PathFinding\GridManager.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IDamageReceived.cs" />
     <Compile Include="Assets\Scripts\Health.cs" />
     <Compile Include="Assets\Scripts\Constants\LevelUpTable.cs" />
-    <Compile Include="Assets\Scripts\Grid.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IDeathHandler.cs" />
     <Compile Include="Assets\Scripts\Models\Node.cs" />
     <Compile Include="Assets\Scripts\UI\SwordSwingCooldownUI.cs" />
@@ -70,7 +71,7 @@
     <Compile Include="Assets\Scripts\EnemyDashTrigger.cs" />
     <Compile Include="Assets\Scripts\Movement.cs" />
     <Compile Include="Assets\Scripts\UI\DashCooldownUI.cs" />
-    <Compile Include="Assets\Scripts\PathFinding.cs" />
+    <Compile Include="Assets\Scripts\PathFinding\PathFinder.cs" />
     <Compile Include="Assets\Scripts\Dash.cs" />
     <Compile Include="Assets\Scripts\EnemyDash.cs" />
     <Reference Include="UnityEngine">

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Models;
+using PathFinding;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class EnemyChaser : MonoBehaviour
@@ -15,13 +16,13 @@ public class EnemyChaser : MonoBehaviour
     public float repathRate = 0.5f;            // How often to recalc path (seconds)
 
     [Header("References")]
-    public PathFinding pathfinder;             // Assign in Inspector
-    public Transform target;                   // Assign Player in Inspector
     public Animator animator;
 
     [HideInInspector] public bool canMove = true; // NEW: Dash can temporarily stop movement
 
+    private PathFinder _pathfinder;
     private Rigidbody2D _rb;
+    private Transform _target;
     private float _surroundAngleOffset;
     private bool _isFollowing;
 
@@ -32,13 +33,9 @@ public class EnemyChaser : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-
-        if (target is null)
-            Debug.LogWarning("EnemyChaser: No target assigned in Inspector!");
-
-        if (pathfinder is null)
-            Debug.LogWarning("EnemyChaser: No Pathfinding assigned in Inspector!");
-
+        _target = GameObject.FindGameObjectWithTag("Player").transform;
+        _pathfinder = new PathFinder(DefaultGrids.Level1);
+        
         _surroundAngleOffset = Random.Range(0f, 360f);
     }
 
@@ -50,9 +47,9 @@ public class EnemyChaser : MonoBehaviour
             return;
         }
 
-        if (target is null || pathfinder is null) return;
+        if (_target is null) return;
 
-        var distance = Vector2.Distance(transform.position, target.position);
+        var distance = Vector2.Distance(transform.position, _target.position);
 
         if (distance <= detectionRange)
             _isFollowing = true;
@@ -60,11 +57,11 @@ public class EnemyChaser : MonoBehaviour
         if (!_isFollowing)
             return;
 
-        var targetPos = (distance > surroundStartRange) ? (Vector2)target.position : GetSurroundPoint();
+        var targetPos = (distance > surroundStartRange) ? (Vector2)_target.position : GetSurroundPoint();
 
         if (Time.time - _lastRepathTime > repathRate)
         {
-            _currentPath = pathfinder.FindPath(transform.position, targetPos);
+            _currentPath = _pathfinder.FindPath(transform.position, targetPos);
             _pathIndex = 0;
             _lastRepathTime = Time.time;
         }
@@ -107,17 +104,17 @@ public class EnemyChaser : MonoBehaviour
         var angleRad = _surroundAngleOffset * Mathf.Deg2Rad;
         var offset = new Vector2(Mathf.Cos(angleRad), Mathf.Sin(angleRad)) * surroundRadius;
         
-        return (Vector2)target.position + offset;
+        return (Vector2)_target.position + offset;
     }
 
     private void OnDrawGizmosSelected()
     {
-        if (target is null) return;
+        if (_target is null) return;
 
         Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(target.position, surroundRadius);
+        Gizmos.DrawWireSphere(_target.position, surroundRadius);
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(target.position, surroundStartRange);
+        Gizmos.DrawWireSphere(_target.position, surroundStartRange);
 
         if (_currentPath == null)
             return;
