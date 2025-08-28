@@ -56,7 +56,9 @@
     <Compile Include="Assets\Scripts\Interfaces\IDamageReceived.cs" />
     <Compile Include="Assets\Scripts\Health.cs" />
     <Compile Include="Assets\Scripts\Constants\LevelUpTable.cs" />
+    <Compile Include="Assets\Scripts\Grid.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IDeathHandler.cs" />
+    <Compile Include="Assets\Scripts\Models\Node.cs" />
     <Compile Include="Assets\Scripts\UI\SwordSwingCooldownUI.cs" />
     <Compile Include="Assets\Scripts\EnemyDeathHandler.cs" />
     <Compile Include="Assets\Scripts\LevelExit.cs" />
@@ -68,6 +70,7 @@
     <Compile Include="Assets\Scripts\EnemyDashTrigger.cs" />
     <Compile Include="Assets\Scripts\Movement.cs" />
     <Compile Include="Assets\Scripts\UI\DashCooldownUI.cs" />
+    <Compile Include="Assets\Scripts\PathFinding.cs" />
     <Compile Include="Assets\Scripts\Dash.cs" />
     <Compile Include="Assets\Scripts\EnemyDash.cs" />
     <Reference Include="UnityEngine">

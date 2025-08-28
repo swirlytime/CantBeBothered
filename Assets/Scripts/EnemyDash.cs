@@ -5,95 +5,99 @@ using UnityEngine;
 public class EnemyDash : MonoBehaviour
 {
     public float dashCooldown = 2f;
+    public float preDashDelay = 0.5f;
     public float stopBeforeDistance = 2f;
     public float dashDuration = 0.5f;
-    public float damageRadius = 0.5f;
-    public float damageAmount = 1f;
-    public LayerMask playerLayer;
+    public LayerMask obstacleLayer;      // Walls layer
 
     public Transform target;
     [SerializeField] private CircleCollider2D dashTrigger;
 
-    private bool _isDashing = false;
-    private bool playerInRange = false;
-    private bool canDash = true;
-    private bool hasDealtDamage = false;
+    private bool _isDashing;
+    private bool _playerInRange;
+    private bool _canDash = true;
+
+    private EnemyChaser _chaser;
 
     private void Awake()
     {
-        if (target == null)
+        _chaser = GetComponent<EnemyChaser>();
+
+        if (target is null)
         {
-            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            var playerObj = GameObject.FindGameObjectWithTag("Player");
             if (playerObj)
                 target = playerObj.transform;
             else
                 Debug.LogWarning("Player not found; assign manually!");
         }
 
-        if (dashTrigger == null)
+        if (dashTrigger is null)
             Debug.LogWarning("DashTrigger not assigned! Assign the child trigger collider in Inspector.");
     }
 
     public void PlayerEnteredTrigger()
     {
-        playerInRange = true;
+        _playerInRange = true;
         TryDash();
     }
 
     public void PlayerExitedTrigger()
     {
-        playerInRange = false;
+        _playerInRange = false;
     }
 
-    public void TryDash()
+    private void TryDash()
     {
-        if (_isDashing || !playerInRange || !canDash || target == null)
+        if (_isDashing || !_playerInRange || !_canDash || target is null)
             return;
 
-        Vector3 currentPos = transform.position;
-        Vector3 targetPos = target.position;
+        var currentPos = transform.position;
+        var targetPos = target.position;
 
-        Vector3 direction = (targetPos - currentPos).normalized;
-        float distanceToTarget = Vector3.Distance(currentPos, targetPos);
+        var direction = (targetPos - currentPos).normalized;
+        var distanceToTarget = Vector3.Distance(currentPos, targetPos);
 
-        float dashDistance = Mathf.Max((distanceToTarget * 2f) - stopBeforeDistance, 0.1f);
-        Vector3 dashEndPos = currentPos + direction * dashDistance;
+        var dashDistance = Mathf.Max((distanceToTarget * 2f) - stopBeforeDistance, 0.1f);
+        var dashEndPos = currentPos + direction * dashDistance;
 
+        // Raycast to stop at walls
+        var hit = Physics2D.Raycast(currentPos, direction, dashDistance, obstacleLayer);
+        if (hit.collider)
+        {
+            dashEndPos = (Vector3)hit.point - direction * 0.1f;
+        }
+        
         Debug.DrawLine(currentPos, dashEndPos, Color.red, 1f);
-
+        
         StartCoroutine(PerformDash(currentPos, dashEndPos));
     }
 
     private IEnumerator PerformDash(Vector3 dashStartPos, Vector3 dashEndPos)
     {
         _isDashing = true;
-        canDash = false;
-        hasDealtDamage = false;
+        _canDash = false;
 
-        float elapsed = 0f;
+        // Stop Chaser movement during pre-dash windup
+        if (_chaser)
+            _chaser.canMove = false;
+
+        // Pre-dash windup
+        yield return new WaitForSeconds(preDashDelay);
+
+        // Resume Chaser movement during dash
+        if (_chaser)
+            _chaser.canMove = true;
+
+        var elapsed = 0f;
 
         while (elapsed < dashDuration)
         {
-            float t = elapsed / dashDuration;
+            var t = elapsed / dashDuration;
             t = t * t * (3f - 2f * t); // smoothstep easing
 
-            Vector3 newPos = Vector3.Lerp(dashStartPos, dashEndPos, t);
+            var newPos = Vector3.Lerp(dashStartPos, dashEndPos, t);
             transform.position = newPos;
-
-            if (!hasDealtDamage)
-            {
-                Collider2D hit = Physics2D.OverlapCircle(transform.position, damageRadius, playerLayer);
-                if (hit != null && hit.CompareTag("Player"))
-                {
-                    var health = hit.GetComponent<Health>();
-                    if (health != null)
-                    {
-                        health.TakeDamage(damageAmount);
-                        Debug.Log($"{name} damaged player during dash!");
-                        hasDealtDamage = true;
-                    }
-                }
-            }
 
             elapsed += Time.deltaTime;
             yield return null;
@@ -103,15 +107,15 @@ public class EnemyDash : MonoBehaviour
         _isDashing = false;
 
         yield return new WaitForSeconds(dashCooldown);
-        canDash = true;
+        _canDash = true;
 
-        if (playerInRange)
+        if (_playerInRange)
             TryDash();
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, damageRadius);
+        Gizmos.DrawWireSphere(transform.position, 0.5f); // Optional: keep for debug
     }
 }

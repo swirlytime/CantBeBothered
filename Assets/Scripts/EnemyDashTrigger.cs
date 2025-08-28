@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class EnemyDashTrigger : MonoBehaviour
 {
-    private EnemyDash enemyDash;
+    private EnemyDash _enemyDash;
 
     private void Awake()
     {
-        enemyDash = GetComponentInParent<EnemyDash>();
-        if (enemyDash == null)
+        _enemyDash = GetComponentInParent<EnemyDash>();
+        if (_enemyDash == null)
         {
             Debug.LogWarning($"{name}: Could not find EnemyDash in parent.");
         }
@@ -18,7 +18,7 @@ public class EnemyDashTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log($"{name}: Triggered by player.");
-            enemyDash?.PlayerEnteredTrigger();
+            _enemyDash?.PlayerEnteredTrigger();
         }
     }
 
@@ -27,7 +27,7 @@ public class EnemyDashTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log($"{name}: Player exited trigger.");
-            enemyDash?.PlayerExitedTrigger();
+            _enemyDash?.PlayerExitedTrigger();
         }
     }
 }
