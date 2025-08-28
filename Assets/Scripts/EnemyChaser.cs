@@ -5,6 +5,8 @@ using Models;
 [RequireComponent(typeof(Rigidbody2D))]
 public class EnemyChaser : MonoBehaviour
 {
+    private static readonly int MoveXAnim = Animator.StringToHash("MoveX");
+    private static readonly int SpeedAnim = Animator.StringToHash("Speed");
     public float attackRange = 0.5f;
     public float detectionRange = 15f;         // How far the enemy can detect the player
     public float surroundStartRange = 8f;      // Start surrounding from this distance
@@ -15,6 +17,7 @@ public class EnemyChaser : MonoBehaviour
     [Header("References")]
     public PathFinding pathfinder;             // Assign in Inspector
     public Transform target;                   // Assign Player in Inspector
+    public Animator animator;
 
     [HideInInspector] public bool canMove = true; // NEW: Dash can temporarily stop movement
 
@@ -89,7 +92,12 @@ public class EnemyChaser : MonoBehaviour
         }
 
         if (toTarget.magnitude >= attackRange)
+        {
             _rb.linearVelocity = toTarget.normalized * moveSpeed;
+            animator.SetFloat(SpeedAnim, _rb.linearVelocity.magnitude);
+            animator.SetFloat(MoveXAnim, _rb.linearVelocity.x);
+            animator.SetFloat(MoveXAnim, _rb.linearVelocity.x);
+        }
         else
             _rb.linearVelocity = Vector2.zero;
     }

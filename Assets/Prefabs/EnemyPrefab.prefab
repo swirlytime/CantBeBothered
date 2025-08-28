@@ -210,6 +210,7 @@ MonoBehaviour:
   surroundStartRange: 8
   surroundRadius: 2.5
   moveSpeed: 3
+  animator: {fileID: 0}
   repathRate: 0.5
   pathfinder: {fileID: 0}
   target: {fileID: 0}
@@ -253,6 +254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfdcc14e1f204b90b3d26617be3758bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
 --- !u!114 &8981827054062561707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,13 +302,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7d16d36fc6dd9046b8481875da1cc04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dashCooldown: 2
-  preDashDelay: 0.5
   stopBeforeDistance: 2
   dashDuration: 0.5
+  damageRadius: 0.5
+  damageAmount: 1
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 64
+  dashCooldown: 2
+  preDashDelay: 0.5
   target: {fileID: 0}
   dashTrigger: {fileID: 966902010234850653}
 --- !u!58 &8385707850028407668
