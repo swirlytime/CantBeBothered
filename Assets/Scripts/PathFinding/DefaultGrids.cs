@@ -7,7 +7,7 @@ namespace PathFinding
         public static GridManager Level1 => new GridManager(
             width: 500,
             height: 500,
-            levelCenter: new Vector2(150,100),
+            levelCenter: new Vector2(0,0),
             obstacleMask: 1 << LayerMask.NameToLayer("Wall"),
             cellSize: 1);
     }

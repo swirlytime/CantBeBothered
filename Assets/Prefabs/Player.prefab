@@ -256,7 +256,7 @@ MonoBehaviour:
   DashSpeed: 20
   DashDuration: 0.2
   DashCooldown: 1
-  animator: {fileID: 0}
+  animator: {fileID: 7756535776306888360}
   _dashAnimationName: Dash
 --- !u!114 &-6241456680314040921
 MonoBehaviour:
@@ -381,7 +381,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.40133867}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.4889286, y: 0.14242722}
@@ -391,7 +391,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.13, y: 0.96}
+  m_Size: {x: 0.13, y: 0.9664219}
   m_EdgeRadius: 0
 --- !u!95 &192101754480288434
 Animator:

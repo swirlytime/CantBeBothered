@@ -58,9 +58,9 @@ public class EnemyChaser : MonoBehaviour
             return;
 
         var targetPos = (distance > surroundStartRange) ? (Vector2)_target.position : GetSurroundPoint();
-
+        
         if (Time.time - _lastRepathTime > repathRate)
-        {
+        { 
             _currentPath = _pathfinder.FindPath(transform.position, targetPos);
             _pathIndex = 0;
             _lastRepathTime = Time.time;
