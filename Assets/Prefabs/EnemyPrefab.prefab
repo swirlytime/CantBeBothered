@@ -98,12 +98,12 @@ GameObject:
   - component: {fileID: 3871577262374358598}
   - component: {fileID: 934187467778758089}
   - component: {fileID: 833422158397401475}
+  - component: {fileID: 4465762053530107587}
   - component: {fileID: 2940349069211550315}
   - component: {fileID: 6220931803742871739}
   - component: {fileID: 2859303741212607774}
   - component: {fileID: 595234126421706755}
   - component: {fileID: 8981827054062561707}
-  - component: {fileID: 4465762053530107587}
   - component: {fileID: 709398403935000475}
   m_Layer: 0
   m_Name: EnemyPrefab
@@ -192,6 +192,28 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
+--- !u!95 &4465762053530107587
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777811309883996603}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 934b68cc1fe846647aa14e66c6fdb7d9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &2940349069211550315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,7 +228,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRange: 0.1
   detectionRange: 10
+  surroundStartRange: 8
+  surroundRadius: 2.5
   moveSpeed: 3
+  animator: {fileID: 0}
 --- !u!114 &6220931803742871739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,6 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfdcc14e1f204b90b3d26617be3758bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
 --- !u!114 &8981827054062561707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,28 +285,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 4465762053530107587}
---- !u!95 &4465762053530107587
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1777811309883996603}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 934b68cc1fe846647aa14e66c6fdb7d9, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &709398403935000475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,9 +297,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7d16d36fc6dd9046b8481875da1cc04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DashSpeed: 15
-  stopBeforeDistance: 2
   dashCooldown: 2
+  stopBeforeDistance: 2
+  dashDuration: 0.5
+  damageRadius: 0.5
+  damageAmount: 1
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
   target: {fileID: 0}
   dashTrigger: {fileID: 966902010234850653}
 --- !u!1 &4014817284594728695
