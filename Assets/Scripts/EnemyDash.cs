@@ -10,28 +10,21 @@ public class EnemyDash : MonoBehaviour
     public float dashDuration = 0.5f;
     public LayerMask obstacleLayer;      // Walls layer
 
-    public Transform target;
+    // public Transform target;
     [SerializeField] private CircleCollider2D dashTrigger;
 
     private bool _isDashing;
     private bool _playerInRange;
     private bool _canDash = true;
+    private Transform _player;
 
     private EnemyChaser _chaser;
 
     private void Awake()
     {
         _chaser = GetComponent<EnemyChaser>();
-
-        if (target is null)
-        {
-            var playerObj = GameObject.FindGameObjectWithTag("Player");
-            if (playerObj)
-                target = playerObj.transform;
-            else
-                Debug.LogWarning("Player not found; assign manually!");
-        }
-
+        _player = GameObject.FindGameObjectWithTag("Player").transform;
+        
         if (dashTrigger is null)
             Debug.LogWarning("DashTrigger not assigned! Assign the child trigger collider in Inspector.");
     }
@@ -49,11 +42,11 @@ public class EnemyDash : MonoBehaviour
 
     private void TryDash()
     {
-        if (_isDashing || !_playerInRange || !_canDash || target is null)
+        if (_isDashing || !_playerInRange || !_canDash || _player is null)
             return;
 
         var currentPos = transform.position;
-        var targetPos = target.position;
+        var targetPos = _player.position;
 
         var direction = (targetPos - currentPos).normalized;
         var distanceToTarget = Vector3.Distance(currentPos, targetPos);

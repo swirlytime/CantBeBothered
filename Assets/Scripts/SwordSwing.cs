@@ -29,9 +29,9 @@ namespace DefaultNamespace
             new Vector2(0, -1),     // Right → Bottom
             new Vector2(0.7f, -0.7f), // UpRight → Bottom Left
             new Vector2(1, 0),     // Up → Left
-            new Vector2(0.7f, 0.7f),  // UpLeft → Top Left
+            new Vector2(0.7f, -0.7f),  // UpLeft → Top Left
             new Vector2(0, -1),      // Left → Bottom
-            new Vector2(-0.7f, 0.7f),  // DownLeft → Top Right
+            new Vector2(-0.7f, -0.7f),  // DownLeft → Top Right
             new Vector2(-1, 0),      // Down → Right
             new Vector2(-0.7f, -0.7f), // DownRight → Bottom Right
         };
