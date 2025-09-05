@@ -1,3 +1,4 @@
+using PlayerLevelUp;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,7 +17,6 @@ namespace UI
             var playerExperience = player.GetComponent<PlayerExperience>();
 
             playerExperience.OnXpChanged += UpdateUI;
-            playerExperience.OnLevelChanged += ShowLevelUp;
         
             UpdateUI(playerExperience.currentXp, playerExperience.xpToNextLevel);
         }
@@ -27,11 +27,6 @@ namespace UI
             xpSlider.value = ratio;
         
             xpText.text = $"{Mathf.CeilToInt(currentXp)} / {Mathf.CeilToInt(xpToNextLevel)}";
-        }
-
-        private void ShowLevelUp(int newLevel)
-        {
-            //Do Something
         }
     }
 }

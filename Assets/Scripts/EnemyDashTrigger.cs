@@ -17,7 +17,6 @@ public class EnemyDashTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log($"{name}: Triggered by player.");
             _enemyDash?.PlayerEnteredTrigger();
         }
     }
@@ -26,7 +25,6 @@ public class EnemyDashTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log($"{name}: Player exited trigger.");
             _enemyDash?.PlayerExitedTrigger();
         }
     }

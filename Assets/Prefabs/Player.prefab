@@ -128,6 +128,7 @@ GameObject:
   - component: {fileID: -5866589482602355470}
   - component: {fileID: 2833079593582875783}
   - component: {fileID: 8106154291836261117}
+  - component: {fileID: 5140541656424646875}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -312,6 +313,22 @@ MonoBehaviour:
   currentLevel: 0
   currentXp: 0
   xpToNextLevel: 1
+--- !u!114 &5140541656424646875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5031913367397523885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f075ed6944f9484ebd9300a0dc7ca02d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swordRange: 1
+  swordDamage: 1
+  swordCooldown: 1
+  dashCooldown: 1
 --- !u!1 &5531172015491816214
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,6 +7,9 @@ public class Health : MonoBehaviour
     private float _currentHealth;
 
     public float CurrentHealth => _currentHealth;
+
+    public delegate void HealthChanged(float currentHealth, float maxHealth);
+    public event HealthChanged OnHealthChanged;
     
     public void TakeDamage(float damage)
     {
@@ -18,6 +21,8 @@ public class Health : MonoBehaviour
             OnDeath();
         if (_currentHealth > MaxHealth)
             _currentHealth = MaxHealth;
+        
+        OnHealthChanged?.Invoke(_currentHealth, MaxHealth);
     }
     
     private void Awake()
@@ -28,6 +33,7 @@ public class Health : MonoBehaviour
     public void RestoreFullHealth()
     {
         _currentHealth = MaxHealth;
+        OnHealthChanged?.Invoke(_currentHealth, MaxHealth);
     }
 
     public void OnDeath()

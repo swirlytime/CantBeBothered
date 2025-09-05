@@ -7,11 +7,17 @@ namespace PathFinding
     public class PathFinder
     {
         private readonly GridManager _grid;
-
-        public PathFinder(GridManager grid)
+        private static PathFinder _instance;
+        
+        private PathFinder(GridManager grid)
         {
             _grid = grid;
             _grid.Initialize();
+        }
+
+        public static PathFinder Instance(GridManager grid)
+        {
+            return _instance ??= new PathFinder(grid);
         }
     
         public List<Node> FindPath(Vector3 startPos, Vector3 targetPos)

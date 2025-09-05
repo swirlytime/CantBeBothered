@@ -34,7 +34,7 @@ public class EnemyChaser : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _target = GameObject.FindGameObjectWithTag("Player").transform;
-        _pathfinder = new PathFinder(DefaultGrids.Level1);
+        _pathfinder = PathFinder.Instance(DefaultGrids.Level1);
         
         _surroundAngleOffset = Random.Range(0f, 360f);
     }

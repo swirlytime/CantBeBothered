@@ -1,4 +1,5 @@
 ﻿using Interfaces;
+using PlayerLevelUp;
 using UnityEngine;
 
 public class EnemyDeathHandler : MonoBehaviour, IDeathHandler
@@ -9,12 +10,14 @@ public class EnemyDeathHandler : MonoBehaviour, IDeathHandler
 
     private Collider2D _collider;
     private EnemyChaser _chaserScript;
+    private EnemyDash _dashScript;
     private bool _isDying = false;
 
     private void Awake()
     {
         _collider = GetComponent<Collider2D>();
         _chaserScript = GetComponent<EnemyChaser>();
+        _dashScript = GetComponent<EnemyDash>();
     }
 
     public void OnDeath()
@@ -26,6 +29,8 @@ public class EnemyDeathHandler : MonoBehaviour, IDeathHandler
         var player = GameObject.FindWithTag("Player");
         player.GetComponent<PlayerExperience>()?.AddXp(1); // should be in enemy character sheet of sorts}
 
+        if (_dashScript)
+            _dashScript.enabled = false;
         if (_chaserScript)
             _chaserScript.enabled = false;
         if (_collider)

@@ -15,17 +15,12 @@ namespace UI
         {
             var player =  GameObject.FindGameObjectWithTag("Player");
             _playerHealth = player.GetComponent<Health>();
-
-            UpdateUI();
+            _playerHealth.OnHealthChanged += UpdateUI;
+            
+            UpdateUI(_playerHealth.CurrentHealth, _playerHealth.MaxHealth);
         }
 
-        // Update is called once per frame
-        private void Update()
-        {
-            UpdateUI();
-        }
-
-        private void UpdateUI()
+        private void UpdateUI(float currentHealth, float maxHealth)
         {
             if (_playerHealth is null) return;
         
